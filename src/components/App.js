@@ -1,54 +1,13 @@
-import logo from '../images/logo.svg';
-import avatar from '../images/avatar.png';
-// import { isContentEditable } from '@testing-library/user-event/dist/utils';
-
-
+import Header from './Header';
+import Main from './Main';
+import Footer from './Footer';
 
 function App() {
 	return (
-		// <div className="App">
-		// 	<header className="App-header">
-		// 		<img src={logo} className="App-logo" alt="logo" />
-		// 		<p>
-		// 			Change <code>src/App.js</code> and save to reload.
-		// 		</p>
-		// 		<a
-		// 			className="App-link"
-		// 			href="https://reactjs.org"
-		// 			target="_blank"
-		// 			rel="noopener noreferrer"
-		// 		>
-		// 			Learn React
-		// 		</a>
-		// 	</header>
-		// </div>
-
 		<div className="page">
-			<header className="header">
-				<img className="header__logo" src={logo} alt="Логотип проекта Mesto" />
-			</header>
-
-			<main className="content">
-				<section className="profile">
-					<div className="profile__avatar-info">
-						<img className="profile__avatar" src={avatar} alt="Аватар пользователя" />
-						<button type="button" className="profile__avatar-change" aria-label="Редактировать профиль"></button>
-						<div className="profile__info">
-							<h1 className="profile__title">Дмитрий Журавлев</h1>
-							<button type="button" className="profile__edit-button button"></button>
-							<p className="profile__subtitle">Повелитель дедлайнов</p>
-						</div>
-					</div>
-					<button type="button" className="profile__add-button button"></button>
-				</section>
-
-				<section className="elements">
-				</section>
-			</main>
-
-			<footer className="footer">
-				<p className="footer__copyright">&copy; 2022 Mesto Russia</p>
-			</footer>
+			<Header />
+			<Main />
+			<Footer />
 
 			<div className="popup popup_type_edit">
 				<div className="popup__container">
