@@ -1,0 +1,16 @@
+.popup {
+  display: flex;
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  z-index: 2;
+  font-family: "Inter", sans-serif;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+
+  visibility: hidden;
+  opacity: 0;
+  transition: 0.3s linear;
+}
