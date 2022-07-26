@@ -1,74 +1,103 @@
 import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
+import Card from './Card';
+import PopupWithForm from './PopupWithForm';
+import ImagePopup from './ImagePopup';
 
 function App() {
+	const buttonAdd = document.querySelector('.profile__add-button');
+	const buttonEdit = document.querySelector('.profile__edit-button');
+	const buttonUpdateAvatar = document.querySelector('.profile__avatar-change');
+	
+	// function openPopup() {
+	// 	this._popup.classList.add('popup_opened');
+	// 	document.addEventListener('keyup', this._handleEscClose);
+	// }
+
+	// Обработчики
+	const handleEditAvatarClick = () => {
+		console.log('обработчик ОБНОВЛЕНИЕ АВЫ');
+		const popupUpdateAvatar = document.querySelector('.popup_type_update-avatar');
+		popupUpdateAvatar.classList.add('popup_opened');
+	}
+
+	function handleEditProfileClick() {
+		console.log('обработчик ИЗМЕНЕНИЯ ПРОФИЛЯ');
+		const popupEditProfile = document.querySelector('.popup_type_edit');
+		popupEditProfile.classList.add('popup_opened');
+	}
+
+	function handleAddPlaceClick() {
+		console.log('обработчик ДОБАВЛЕНИЯ МЕСТА');
+		const popupNewPlace = document.querySelector('.popup_type_add-element');
+		popupNewPlace.classList.add('popup_opened');
+	}
+
+	// const editProfilePopup = new PopupWithForm({
+	// 	callbackFunction: (data) => {
+	// 		editProfilePopup.renderLoading(true)
+	// 		api.editProfile(data)
+	// 			.then((res) => {
+	// 				userInfo.setUserInfo(res);
+	// 				editProfilePopup.closePopup();
+	// 			})
+	// 			.catch((err) => { console.log(err); })
+	// 			.finally(() => {
+	// 				editProfilePopup.renderLoading(false);
+	// 			})
+	// 	}
+	// }, '.popup_type_edit'
+	// );
+	// editProfilePopup.setEventListeners();
+
+	// const popupUpdateAvatar = new PopupWithForm({
+	// 	callbackFunction: (data) => {
+	// 		popupUpdateAvatar.renderLoading(true)
+	// 		api.editAvatar(data)
+	// 			.then((res) => {
+	// 				userInfo.setAvatar(res);
+	// 				popupUpdateAvatar.closePopup();
+	// 			})
+	// 			.catch((err) => { console.log(err); })
+	// 			.finally(() => {
+	// 				popupUpdateAvatar.renderLoading(false);
+	// 			})
+	// 	}
+	// }, '.popup_type_update-avatar'
+	// );
+	// popupUpdateAvatar.setEventListeners();
+
+	// const popupNewPlace = new PopupWithForm({
+	// 	callbackFunction: (data) => {
+	// 		popupNewPlace.renderLoading(true)
+	// 		api.addCard(data)
+	// 			.then(res => {
+	// 				cardList.addItem(makeNewCard(res));
+	// 				popupNewPlace.closePopup();
+	// 			})
+	// 			.catch((err) => { console.log(err); })
+	// 			.finally(() => {
+	// 				popupNewPlace.renderLoading(false);
+	// 			})
+	// 	}
+	// }, '.popup_type_add-element');
+	// popupNewPlace.setEventListeners();
+
 	return (
 		<div className="page">
 			<Header />
-			<Main />
+			<Main
+				handleEditAvatarClick={handleEditAvatarClick}
+				handleEditProfileClick={handleEditProfileClick}
+				handleAddPlaceClick={handleAddPlaceClick}
+			/>
 			<Footer />
-
-			<div className="popup popup_type_edit">
-				<div className="popup__container">
-					<button type="button" className="popup__close-button button" id="close-button"></button>
-					<h2 className="popup__heading">Редактировать профиль</h2>
-					<form className="popup__admin popup__admin_type_profile" name="EditProfile" novalidate>
-						<input className="popup__item" type="text" id="input-name" name="name" placeholder="Имя" required
-							minlength="2" maxlength="40" />
-						<span className="popup__input-error input-name-error popup__error"></span>
-						<input className="popup__item" type="text" id="input-about" name="about" placeholder="О себе" required
-							minlength="2" maxlength="200" />
-						<span className="popup__input-error input-about-error popup__error"></span>
-						<button type="submit" className="popup__button button">Сохранить</button>
-					</form>
-				</div>
-			</div>
-
-			<div className="popup popup_type_add-element">
-				<div className="popup__container">
-					<button type="button" className="popup__close-button button" id="close-button-popup-add"></button>
-					<h2 clclassNameass="popup__heading">Новое место</h2>
-					<form className="popup__admin popup__admin_type_add-elem" name="NewPlace" novalidate>
-						<input className="popup__item" type="text" id="input-name-place" name="input-name-place"
-							placeholder="Название" required minlength="2" maxlength="30" />
-						<span className="popup__input-error input-name-place-error popup__error"></span>
-						<input className="popup__item" type="url" id="input-link-place" name="input-link-place"
-							placeholder="Ссылка на картинку" required />
-						<span className="popup__input-error input-link-place-error popup__error"></span>
-						<button type="submit" className="popup__button button">Создать</button>
-					</form>
-				</div>
-			</div>
-
-			<div className="popup popup_type_update-avatar">
-				<div className="popup__container">
-					<button type="button" className="popup__close-button button" id="close-button-popup-avatar"></button>
-					<h2 className="popup__heading">Обновить аватар</h2>
-					<form className="popup__admin popup__admin_type_profile" name="Update-Avatar" novalidate>
-						<input className="popup__item" type="url" id="input-link-avatar" name="avatar"
-							placeholder="Ссылка на картинку" required />
-						<span className="popup__input-error input-link-avatar-error popup__error"></span>
-						<button type="submit" className="popup__button button">Сохранить</button>
-					</form>
-				</div>
-			</div>
-
-			<div className="popup popup_type_confirm">
-				<div className="popup__container">
-					<button type="button" className="popup__close-button button" id="close-button-popup-confirm"></button>
-					<h2 className="popup__heading">Вы уверены?</h2>
-					<button type="submit" className="popup__button button">Да</button>
-				</div>
-			</div>
-
-			<div className="popup popup_type_view-image">
-				<div className="popup__container-image">
-					<button type="button" className="popup__close-button button" id="close-button-popup-view"></button>
-					<img src="#" alt="Увеличенная карточка" class="popup__image" />
-					<p className="popup__description"></p>
-				</div>
-			</div>
+			<PopupWithForm />
+			<PopupWithForm />
+			<PopupWithForm />
+			<PopupWithForm />
+			<ImagePopup />
 		</div>
 	);
 }
