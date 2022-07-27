@@ -1,8 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
-import Card from './Card';
 import PopupWithForm from './PopupWithForm';
 import ImagePopup from './ImagePopup';
 
@@ -10,30 +9,26 @@ function App() {
 	const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
 	const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
 	const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
+	const [selectedCard, setSelectedCard] = useState({});
 
 	// Обработчики открытия попапов
 	const onEditAvatar = () => {
-		console.log('обработчик ОБНОВЛЕНИЕ АВЫ');
 		setIsEditAvatarPopupOpen(!isEditAvatarPopupOpen);
-		!isEditAvatarPopupOpen ? console.log('ВЕРНО') : console.log('НЕВЕРНО');
 	}
 
 	const onEditProfile = () => {
-		console.log('обработчик ИЗМЕНЕНИЯ ПРОФИЛЯ');
 		setIsEditProfilePopupOpen(!isEditProfilePopupOpen);
-		!isEditProfilePopupOpen ? console.log('держи поп. Меняй') : console.log('куда пропал поп ап');
 	}
 
 	const onAddPlace = () => {
-		console.log('обработчик ДОБАВЛЕНИЯ МЕСТА');
 		setIsAddPlacePopupOpen(!isAddPlacePopupOpen);
-		!isAddPlacePopupOpen ? console.log('получил поп') : console.log('куда пропал поп ап');
 	}
 
 	const closeAllPopup = () => {
 		setIsEditProfilePopupOpen(false);
 		setIsAddPlacePopupOpen(false);
 		setIsEditAvatarPopupOpen(false);
+		setSelectedCard({});
 	}
 
 	return (
@@ -43,6 +38,7 @@ function App() {
 				onEditAvatar={onEditAvatar}
 				onEditProfile={onEditProfile}
 				onAddPlace={onAddPlace}
+				onCardClick={setSelectedCard}
 			/>
 			<Footer />
 
@@ -91,8 +87,12 @@ function App() {
 				</>
 			</PopupWithForm>
 
-			<PopupWithForm />
-			<ImagePopup />
+			<ImagePopup
+				name='view-image'
+				card={selectedCard}
+				onClose={closeAllPopup}>
+
+			</ImagePopup>
 		</div>
 	);
 }

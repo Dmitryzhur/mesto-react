@@ -1,41 +1,41 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import api from "../utils/Api";
+import Card from "./Card";
 
-function Main({ onEditAvatar, onEditProfile, onAddPlace }) {
-
-	const [search, setSearch] = useState('');
-	const [data, setData] = useState([]);
-	const [isLoading, setLoading] = useState(true);
-
+function Main({ onEditAvatar, onEditProfile, onAddPlace, onCardClick }) {
 	const [userName, setUserName] = useState('');
 	const [userDescription, setUserDescription] = useState('');
 	const [userAvatar, setUserAvatar] = useState('');
+	const [cards, setCardsList] = useState([]);
+	// const [isLoading, setLoading] = useState(true);
 
 	const getUser = () => {
-		setLoading(true);
-		api.getUser(search)
+		// setLoading(true);
+		api.getUser()
 			.then((res) => {
 				setUserName(res.name);
 				setUserDescription(res.about);
 				setUserAvatar(res.avatar);
 			})
-			.catch((err) => { console.log(err); })
-			.finally(() => setLoading(false));
-		
-			// Promise.all([api.getUser(), api.getCards()])
-			// .then(([userData, cards]) => {
-			// 	userInfo.setUserInfo(userData);
-			// 	userInfo.setAvatar(userData);
-			// 	userInfo.setId(userData);
-
-			// 	cardList.renderItems(cards);
-			// })
-			// .catch((err) => { console.log(err); })
+			.catch((err) => { console.log(err) })
+			// .finally(() => setLoading(false));
 	}
 
 	React.useEffect(() => {
 		getUser();
 	}, [userName, userDescription, userAvatar]);
+
+	const getCards = () => {
+		// setLoading(true);
+		api.getCards()
+			.then((res) => { setCardsList(res) })
+			.catch((err) => { console.log(err) })
+			// .finally(() => setLoading(false));
+	}
+
+	React.useEffect(() => {
+		getCards();
+	}, []);
 
 	return (
 		<main className="content">
@@ -53,6 +53,13 @@ function Main({ onEditAvatar, onEditProfile, onAddPlace }) {
 			</section>
 
 			<section className="elements">
+				{cards.map((card) => {
+					return <div key={card._id}>
+						<Card card={card} onCardClick={onCardClick} />
+					</div>
+				}
+
+				)}
 			</section>
 		</main>
 	)

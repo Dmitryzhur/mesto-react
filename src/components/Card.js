@@ -1,18 +1,20 @@
-function Card() {
+function Card({ card, onCardClick }) {
+	function handleClick() {
+		onCardClick(card);
+	}
+
 	return (
-		<template id="elements__element-template">
-			<div className="elements__element">
-				<button type="button" className="elements__element-trash-button button"></button>
-				<img className="elements__element-img" />
-					<div className="elements__element-block">
-						<h3 className="elements__element-title"></h3>
-						<div className="elements__element-like-container">
-							<button className="elements__element-like-button button" type="button" aria-label="Нравится"></button>
-							<p className="elements__element-number-like">0</p>
-						</div>
-					</div>
+		<div className="elements__element">
+			<button type="button" className="elements__element-trash-button button" aria-label="Удалить"></button>
+			<img className="elements__element-img" src={`${card.link}`} alt={card.name} onClick={handleClick} />
+			<div className="elements__element-block">
+				<h3 className="elements__element-title">{card.name}</h3>
+				<div className="elements__element-like-container">
+					<button className="elements__element-like-button button" type="button" aria-label="Нравится"></button>
+					<p className="elements__element-number-like">{card.likes.length}</p>
+				</div>
 			</div>
-		</template>
+		</div>
 	)
 }
 
