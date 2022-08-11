@@ -8,6 +8,7 @@
   width: 18px;
   height: 19px;
   border: none;
+  visibility: hidden;
 }
 
 .elements__element-trash-button:hover {

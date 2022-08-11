@@ -38,44 +38,61 @@ class Api {
 			method: 'POST',
 			headers: this._headers,
 			body: JSON.stringify({
-                name: data['input-name-place'],
-                link: data['input-link-place']
-            })
+				name: data['input-name-place'],
+				link: data['input-link-place']
+			})
 		})
 			.then(this._checkResponseStatus)
 	}
 
 	delCard(_id) {
-		return fetch(`${this._baseURL}/cards/${_id}`, { 
+		return fetch(`${this._baseURL}/cards/${_id}`, {
 			method: 'DELETE',
 			headers: this._headers,
 		})
 			.then(this._checkResponseStatus)
 	}
 
-	addLike(_id) {
-		return fetch(`${this._baseURL}/cards/${_id}/likes`, {
-			method: 'PUT',
-			headers: this._headers,
-		})
-			.then(this._checkResponseStatus)
+	toggleLike(_id, isLiked) {
+		if (!isLiked) {
+			return fetch(`${this._baseURL}/cards/${_id}/likes`, {
+				method: 'PUT',
+				headers: this._headers,
+			})
+				.then(this._checkResponseStatus)
+		} else {
+			return fetch(`${this._baseURL}/cards/${_id}/likes`, {
+				method: 'DELETE',
+				headers: this._headers,
+			})
+				.then(this._checkResponseStatus)
+		}
 	}
 
-	deleteLike(_id) {
-		return fetch(`${this._baseURL}/cards/${_id}/likes`, {
-			method: 'DELETE',
-			headers: this._headers,
-		})
-			.then(this._checkResponseStatus)
-	}
+
+	// addLike(_id) {
+	// 	return fetch(`${this._baseURL}/cards/${_id}/likes`, {
+	// 		method: 'PUT',
+	// 		headers: this._headers,
+	// 	})
+	// 		.then(this._checkResponseStatus)
+	// }
+
+	// deleteLike(_id) {
+	// 	return fetch(`${this._baseURL}/cards/${_id}/likes`, {
+	// 		method: 'DELETE',
+	// 		headers: this._headers,
+	// 	})
+	// 		.then(this._checkResponseStatus)
+	// }
 
 	editAvatar(data) {
 		return fetch(`${this._baseURL}/users/me/avatar`, {
 			method: 'PATCH',
 			headers: this._headers,
 			body: JSON.stringify({
-                avatar: data.avatar
-            })
+				avatar: data.avatar
+			})
 		},
 		)
 			.then(this._checkResponseStatus)
