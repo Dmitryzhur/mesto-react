@@ -16,16 +16,13 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
 
 	function handleChangeName(e) {
 		setName(e.target.value);
-		console.log('ты меняешь имя');
 	}
 
 	function handleChangeDescription(e) {
 		setDescription(e.target.value);
-		console.log('ты меняешь описание');
 	}
 
 	function handleSubmit(e) {
-		console.log('ДА ТЫ СОХРАНИЛ ФОРМУ');
 		// Запрещаем браузеру переходить по адресу формы
 		e.preventDefault();
 
@@ -36,18 +33,6 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
 		});
 	}
 
-	function onClick(e) {
-		console.log('ДА ТЫ НАЖАЛ НА КНОПКУ СОХРАНИТЬ');
-		// Запрещаем браузеру переходить по адресу формы
-		// e.preventDefault();
-
-		// // Передаём значения управляемых компонентов во внешний обработчик
-		// onUpdateUser({
-		// 	name,
-		// 	about: description,
-		// });
-	}
-
 	return (
 		<PopupWithForm
 			title='Редактировать профиль'
@@ -56,7 +41,6 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
 			isOpen={isOpen}
 			onClose={onClose}
 			onSubmit={handleSubmit}
-			onClick={onClick}
 		>
 			<>
 				<input
