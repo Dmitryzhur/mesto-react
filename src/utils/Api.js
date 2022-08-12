@@ -24,10 +24,7 @@ class Api {
 		return fetch(`${this._baseURL}/users/me`, {
 			method: 'PATCH',
 			headers: this._headers,
-			body: JSON.stringify({
-				name: data.name,
-				about: data.about
-			})
+			body: JSON.stringify(data)
 		},
 		)
 			.then(this._checkResponseStatus)
@@ -68,23 +65,6 @@ class Api {
 				.then(this._checkResponseStatus)
 		}
 	}
-
-
-	// addLike(_id) {
-	// 	return fetch(`${this._baseURL}/cards/${_id}/likes`, {
-	// 		method: 'PUT',
-	// 		headers: this._headers,
-	// 	})
-	// 		.then(this._checkResponseStatus)
-	// }
-
-	// deleteLike(_id) {
-	// 	return fetch(`${this._baseURL}/cards/${_id}/likes`, {
-	// 		method: 'DELETE',
-	// 		headers: this._headers,
-	// 	})
-	// 		.then(this._checkResponseStatus)
-	// }
 
 	editAvatar(data) {
 		return fetch(`${this._baseURL}/users/me/avatar`, {

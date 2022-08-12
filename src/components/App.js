@@ -6,6 +6,8 @@ import PopupWithForm from './PopupWithForm';
 import ImagePopup from './ImagePopup';
 import CurrentUserContext from '../contexts/CurrentUserContext';
 import api from "../utils/Api";
+import EditProfilePopup from "./EditProfilePopup";
+
 
 function App() {
 	const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
@@ -39,6 +41,17 @@ function App() {
 	useEffect(() => {
 		getCards();
 	}, []);
+
+	function handleUpdateUser(data) {
+		api.editProfile(data)
+			.then((res) => {
+				setCurrentUser(res);
+				closeAllPopups();
+			})
+			.catch((err) => {
+				console.log(err);
+			})
+	}
 
 	const onCardLike = (card) => {
 		// Снова проверяем, есть ли уже лайк на этой карточке
@@ -74,7 +87,7 @@ function App() {
 		setIsAddPlacePopupOpen(!isAddPlacePopupOpen);
 	}
 
-	const closeAllPopup = () => {
+	const closeAllPopups = () => {
 		setIsEditProfilePopupOpen(false);
 		setIsAddPlacePopupOpen(false);
 		setIsEditAvatarPopupOpen(false);
@@ -101,7 +114,9 @@ function App() {
 					name='update-avatar'
 					buttonName='Сохранить'
 					isOpen={isEditAvatarPopupOpen}
-					onClose={closeAllPopup}>
+					onClose={closeAllPopups}
+					onSubmit={closeAllPopups}
+				>
 					<>
 						<input className="popup__item" type="url" id="input-link-avatar" name="avatar"
 							placeholder="Ссылка на картинку" required />
@@ -109,28 +124,19 @@ function App() {
 					</>
 				</PopupWithForm>
 
-				<PopupWithForm
-					title='Редактировать профиль'
-					name='edit'
-					buttonName='Сохранить'
+				<EditProfilePopup
 					isOpen={isEditProfilePopupOpen}
-					onClose={closeAllPopup}>
-					<>
-						<input className="popup__item" type="text" id="input-name" name="name" placeholder="Имя" required
-							minLength="2" maxLength="40" />
-						<span className="popup__input-error input-name-error popup__error"></span>
-						<input className="popup__item" type="text" id="input-about" name="about" placeholder="О себе" required
-							minLength="2" maxLength="200" />
-						<span className="popup__input-error input-about-error popup__error"></span>
-					</>
-				</PopupWithForm>
+					onClose={closeAllPopups}
+					onUpdateUser={handleUpdateUser} />
 
 				<PopupWithForm
 					title='Новое место'
 					name='add-element'
 					buttonName='Создать'
 					isOpen={isAddPlacePopupOpen}
-					onClose={closeAllPopup}>
+					onClose={closeAllPopups}
+					onSubmit={closeAllPopups}
+				>
 					<>
 						<input className="popup__item" type="text" id="input-name-place" name="input-name-place"
 							placeholder="Название" required minLength="2" maxLength="30" />
@@ -144,7 +150,7 @@ function App() {
 				<ImagePopup
 					name='view-image'
 					card={selectedCard}
-					onClose={closeAllPopup}>
+					onClose={closeAllPopups}>
 
 				</ImagePopup>
 			</div>
