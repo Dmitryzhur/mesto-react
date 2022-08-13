@@ -2,13 +2,12 @@ import { useState, useEffect } from "react";
 import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
-import PopupWithForm from './PopupWithForm';
 import ImagePopup from './ImagePopup';
 import CurrentUserContext from '../contexts/CurrentUserContext';
 import api from "../utils/Api";
 import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
-
+import AddPlacePopup from "./AddPlacePopup";
 
 function App() {
 	const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
@@ -19,28 +18,15 @@ function App() {
 	const [cards, setCardsList] = useState([]);
 	// const [isLoading, setLoading] = useState(true);
 
-	const getUser = () => {
-		// setLoading(true);
-		api.getUser()
-			.then((res) => { setCurrentUser(res) })
-			.catch((err) => { console.log(err) })
-		// .finally(() => setLoading(false));
-	}
-
 	useEffect(() => {
-		getUser()
-	}, []);
-
-	const getCards = () => {
 		// setLoading(true);
-		api.getCards()
-			.then((res) => { setCardsList(res) })
-			.catch((err) => { console.log(err) })
-		// .finally(() => setLoading(false));
-	};
-
-	useEffect(() => {
-		getCards();
+		Promise.all([api.getUser(), api.getCards()])
+		.then(([userData, initialCards]) => {
+			setCurrentUser(userData);
+			setCardsList(initialCards);
+		})
+		.catch((err) => { console.log(err) })
+		// .finally(() => setLoading(false))
 	}, []);
 
 	function handleUpdateUser(data) {
@@ -58,6 +44,17 @@ function App() {
 		api.editAvatar(data)
 			.then((res) => {
 				setCurrentUser(res);
+				closeAllPopups();
+			})
+			.catch((err) => {
+				console.log(err);
+			})
+	}
+
+	function handleAddCard(data) {
+		api.addCard(data)
+			.then((newCard) => {
+				setCardsList([newCard, ...cards]);
 				closeAllPopups();
 			})
 			.catch((err) => {
@@ -131,23 +128,10 @@ function App() {
 					onClose={closeAllPopups}
 					onUpdateUser={handleUpdateUser} />
 
-				<PopupWithForm
-					title='Новое место'
-					name='add-element'
-					buttonName='Создать'
+				<AddPlacePopup
 					isOpen={isAddPlacePopupOpen}
 					onClose={closeAllPopups}
-					onSubmit={closeAllPopups}
-				>
-					<>
-						<input className="popup__item" type="text" id="input-name-place" name="input-name-place"
-							placeholder="Название" required minLength="2" maxLength="30" />
-						<span className="popup__input-error input-name-place-error popup__error"></span>
-						<input className="popup__item" type="url" id="input-link-place" name="input-link-place"
-							placeholder="Ссылка на картинку" required />
-						<span className="popup__input-error input-link-place-error popup__error"></span>
-					</>
-				</PopupWithForm>
+					onAddCard={handleAddCard} />
 
 				<ImagePopup
 					name='view-image'
