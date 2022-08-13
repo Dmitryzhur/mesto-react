@@ -8,11 +8,13 @@ import api from "../utils/Api";
 import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup";
+// import PopupWithForm from "./PopupWithForm";
 
 function App() {
 	const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
 	const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
 	const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
+	// const [isDeletePlacePopupOpen, setIsDeletePlacePopupOpen] = useState(false);
 	const [selectedCard, setSelectedCard] = useState({});
 	const [currentUser, setCurrentUser] = useState({});
 	const [cards, setCardsList] = useState([]);
@@ -21,11 +23,11 @@ function App() {
 	useEffect(() => {
 		// setLoading(true);
 		Promise.all([api.getUser(), api.getCards()])
-		.then(([userData, initialCards]) => {
-			setCurrentUser(userData);
-			setCardsList(initialCards);
-		})
-		.catch((err) => { console.log(err) })
+			.then(([userData, initialCards]) => {
+				setCurrentUser(userData);
+				setCardsList(initialCards);
+			})
+			.catch((err) => { console.log(err) })
 		// .finally(() => setLoading(false))
 	}, []);
 
@@ -96,10 +98,15 @@ function App() {
 		setIsAddPlacePopupOpen(!isAddPlacePopupOpen);
 	}
 
+	// const onCardDeleteClick = () => {
+	// 	setIsDeletePlacePopupOpen(!isDeletePlacePopupOpen);
+	// }
+
 	const closeAllPopups = () => {
 		setIsEditProfilePopupOpen(false);
 		setIsAddPlacePopupOpen(false);
 		setIsEditAvatarPopupOpen(false);
+		// setIsDeletePlacePopupOpen(false);
 		setSelectedCard({});
 	}
 
@@ -136,9 +143,17 @@ function App() {
 				<ImagePopup
 					name='view-image'
 					card={selectedCard}
-					onClose={closeAllPopups}>
+					onClose={closeAllPopups} />
 
-				</ImagePopup>
+				{/* <PopupWithForm
+					name="confirm"
+					title="Вы уверены?"
+					buttonName="Да"
+					isOpen={isDeletePlacePopupOpen}
+					onClose={closeAllPopups}
+					onSubmit={onCardDelete} 
+					card={selectedCard}
+					/> */}
 			</div>
 		</CurrentUserContext.Provider>
 	);
