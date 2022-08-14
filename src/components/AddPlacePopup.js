@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import PopupWithForm from "./PopupWithForm";
 
 function AddPlacePopup({ isOpen, onClose, onAddCard }) {
@@ -23,6 +23,12 @@ function AddPlacePopup({ isOpen, onClose, onAddCard }) {
 			link: link,
 		});
 	}
+
+	// Очистка инпутов при открытии/закрытии
+	useEffect(() => {
+		setName('');
+		setLink('');
+	}, [isOpen]);
 
 	return (
 		<PopupWithForm
